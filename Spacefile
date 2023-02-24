@@ -3,7 +3,6 @@ micros:
   - name: cron
     src: .
     engine: python3.9
-    run: main.py
     primary: true
     actions:
       - id: "cron"

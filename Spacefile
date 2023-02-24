@@ -1,0 +1,13 @@
+v: 0
+micros:
+  - name: cron
+    src: .
+    engine: python3.9
+    run: main.py
+    primary: true
+    actions:
+      - id: "cron"
+        name: "cron"
+        description: "run cron every 2 hours"
+        trigger: "schedule"
+        default_interval: "0 */2 * * *"

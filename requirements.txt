@@ -1,0 +1,6 @@
+flask
+gspread
+requests
+bs4
+oauth2client
+deta

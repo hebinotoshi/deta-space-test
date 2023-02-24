@@ -1,12 +1,13 @@
-from deta import app
-# use app.lib.cron decorator for the function that runs on the schedule
-# the function takes an `event` as an argument
+
+from bs4 import BeautifulSoup
+from flask import Flask, request
+from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 import requests
-from bs4 import BeautifulSoup
-from oauth2client.service_account import ServiceAccountCredentials
 
-def scrape_and_go():
+
+app = Flask(__name__)
+def cron():
     # Authenticate to Google Sheets
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
@@ -59,10 +60,11 @@ def scrape_and_go():
         sheet.append_row(list(beer_info.values()), value_input_option='RAW')
 
 
-
-
-@app.lib.run()
-@app.lib.cron()
-def cron_task(event):
-    return scrape_and_go()
-    # print("running on a schedule") 
+@app.route('/__space/v0/actions' , methods=['POST'])
+def actions():
+    data = request.get_json()
+    print(data)
+    event = data['event']
+    if event['id'] == 'cron':
+        cron()
+        
